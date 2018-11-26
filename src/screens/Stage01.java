@@ -1,5 +1,6 @@
 package screens;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
@@ -19,26 +20,33 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import game.GameManager;
 import game.Penball;
 import game.Utills;
+import objects.Enemy01;
+import objects.Entity;
 import objects.Player;
 
 public class Stage01 implements Screen{
 
 	public final static int SCALE = 10;
-	Penball game;
+	private Penball game;
 	private World world;
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	
 	private Player player;
+	private Entity enemy1;
+	private Entity enemy2;
+	private Entity enemy3;
 	
 	private boolean touchCheck;
+	private boolean stageClear;
 	private float xPos;
 	private float yPos;
 	
-	public Stage01 (final Penball game) {
+	public Stage01 (Penball game) {
 		
 		this.game = game;
 		touchCheck = false;
@@ -48,7 +56,13 @@ public class Stage01 implements Screen{
 		camera.setToOrtho(false, Penball.WIDTH / SCALE, Penball.HEIGHT / SCALE);
 		viewport = new FitViewport(Penball.WIDTH / SCALE,Penball.HEIGHT / SCALE,camera);
 		
+		// Stage Setup
+		stageClear = false;
+		
+		// Entity create40]]
 		player = new Player(world, 50, 150);
+		
+		enemy1 = new Enemy01(world, 150, 300);
 		
 		// First we create a body definition
 		BodyDef bodyDef = new BodyDef();
@@ -156,22 +170,27 @@ public class Stage01 implements Screen{
 			System.out.println("SHOOT");
 			touchCheck = false;
 			Vector2 pos = player.getPosition();
-			player.body.applyLinearImpulse((10*(xPos - xPos2)), (10*(yPos2 - yPos)), pos.x, pos.y, true);
+			player.body.applyLinearImpulse((20*(xPos - xPos2)), (20*(yPos2 - yPos)), pos.x, pos.y, true);
 		}
 		
 		player.linearCheck();
 		
 		game.batch.begin();
 		player.render(game.batch);
+		enemy1.render(game.batch);
+		//enemy2.render(game.batch);
 		game.batch.end();
 		
+		if (game.manager.getEnemiesInStage() == 0 && !stageClear) stageClear = true;
+		
 		world.step(1/60f, 6, 2);
+		
+		// Hp check
 	}
 
 	@Override
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);
-		System.out.println("resize");
 	}
 
 	@Override

@@ -13,6 +13,7 @@ public class Penball extends Game {
 	public static final int HEIGHT = 480;
   	public SpriteBatch batch;
 	public BitmapFont font;
+	public GameManager manager;
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -21,6 +22,7 @@ public class Penball extends Game {
 	}
 
 	public void render() {
+		// Have no idea how this is work
 		super.render(); 
 	}
 
