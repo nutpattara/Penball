@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import game.GameManager;
 import game.Penball;
 
 public class MainMenu implements Screen{
@@ -54,7 +55,7 @@ public class MainMenu implements Screen{
 		game.batch.end();
 
 		if (Gdx.input.isTouched()) {
-			game.setScreen(new Stage01(game));
+			game.manager = new GameManager(game);
 			dispose();
 		}
 		
@@ -64,7 +65,6 @@ public class MainMenu implements Screen{
 	public void resize(int arg0, int arg1) {
 		// TODO Auto-generated method stub
 		viewport.update(arg0, arg1);
-		System.out.println("resize2");
 	}
 
 	@Override
