@@ -158,8 +158,8 @@ public class Stage01 implements Screen{
 			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
 			Vector3 cali = screenCalibrator.calibrate(touchPos, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			System.out.println("test1 " + touchPos.x+ " " + touchPos.y);
-			System.out.println("test2 " + cali.x+ " " + cali.y);
+			System.out.println("Raw Input: " + touchPos.x+ " " + touchPos.y);
+			System.out.println("Calibrate: " + cali.x+ " " + cali.y);
 		}
 		
 		
