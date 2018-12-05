@@ -9,7 +9,7 @@ public class Launcher {
 	      config.title = "Penball";
 	      config.width = Penball.WIDTH;
 	      config.height = Penball.HEIGHT;
-	      config.resizable = false;
+	      //config.resizable = false;
 	      new LwjglApplication(new Penball(), config);
 
 	}

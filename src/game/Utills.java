@@ -12,5 +12,8 @@ public class Utills {
 		System.out.println(entity.getX());
 		System.out.println(entity.getY());
 		System.out.println(entity.body.getLinearVelocity());
+		System.out.println(Gdx.graphics.getWidth());
+		System.out.println(Gdx.graphics.getHeight());
 	}
+	
 }

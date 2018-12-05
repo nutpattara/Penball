@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import game.GameManager;
 import game.Penball;
+import game.ScreenCalibrator;
 import game.Utills;
 import objects.Enemy01;
 import objects.Entity;
@@ -35,6 +37,9 @@ public class Stage01 implements Screen{
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private Viewport viewport;
+	private ScreenCalibrator screenCalibrator;
+	
+	private TiledMap tileMap;
 	
 	private Player player;
 	private Entity enemy1;
@@ -55,6 +60,7 @@ public class Stage01 implements Screen{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Penball.WIDTH / SCALE, Penball.HEIGHT / SCALE);
 		viewport = new FitViewport(Penball.WIDTH / SCALE,Penball.HEIGHT / SCALE,camera);
+		screenCalibrator = new ScreenCalibrator();
 		
 		// Stage Setup
 		stageClear = false;
@@ -137,18 +143,30 @@ public class Stage01 implements Screen{
 		// Clear screen
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
 		// Camera move
 		debugRenderer.render(world, camera.combined);
 		camera.update();
 		
 		if (Gdx.input.isKeyPressed(Keys.A)) {			
 			Utills.positionCheck(player);
+			System.out.println(screenCalibrator.getRatio());
+		}
+		
+		
+		if (Gdx.input.isTouched()) {
+			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
+			Vector3 cali = screenCalibrator.calibrate(touchPos, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			System.out.println("test1 " + touchPos.x+ " " + touchPos.y);
+			System.out.println("test2 " + cali.x+ " " + cali.y);
 		}
 		
 		
 		if (Gdx.input.isTouched() && !touchCheck) {
 			Vector3 touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
 			xPos = touchPos.x / SCALE;
 			yPos = touchPos.y / SCALE;
 			if (player.getX()+1.6f >= (xPos)
@@ -191,6 +209,7 @@ public class Stage01 implements Screen{
 	@Override
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);
+		screenCalibrator.update(arg0, arg1);
 	}
 
 	@Override
