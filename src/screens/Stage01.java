@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import game.GameManager;
 import game.Penball;
-import game.ScreenCalibrator;
 import game.Utills;
 import objects.Enemy01;
 import objects.Entity;
@@ -37,7 +36,6 @@ public class Stage01 implements Screen{
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private Viewport viewport;
-	private ScreenCalibrator screenCalibrator;
 	
 	private TiledMap tileMap;
 	
@@ -60,7 +58,6 @@ public class Stage01 implements Screen{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Penball.WIDTH / SCALE, Penball.HEIGHT / SCALE);
 		viewport = new FitViewport(Penball.WIDTH / SCALE,Penball.HEIGHT / SCALE,camera);
-		screenCalibrator = new ScreenCalibrator();
 		
 		// Stage Setup
 		stageClear = false;
@@ -150,46 +147,39 @@ public class Stage01 implements Screen{
 		
 		if (Gdx.input.isKeyPressed(Keys.A)) {			
 			Utills.positionCheck(player);
-			System.out.println(screenCalibrator.getRatio());
-		}
-		
-		
-		if (Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			Vector3 cali = screenCalibrator.calibrate(touchPos, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			System.out.println("Raw Input: " + touchPos.x+ " " + touchPos.y);
-			System.out.println("Calibrate: " + cali.x+ " " + cali.y);
 		}
 		
 		
 		if (Gdx.input.isTouched() && !touchCheck) {
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			xPos = touchPos.x / SCALE;
-			yPos = touchPos.y / SCALE;
+			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			viewport.unproject(touchPos);
+			xPos = touchPos.x;
+			yPos = touchPos.y;
+			//System.out.println("Raw Input: " + touchPos.x+ " " + touchPos.y);
+			//System.out.println("Calibrate: " + xPos+ " " + yPos);
 			if (player.getX()+1.6f >= (xPos)
 					&& player.getX()-1.6f <= (xPos)
-					&& 48-player.getY()+1.6f >= (yPos)
-					&& 48-player.getY()-1.6f <= (yPos)) {
+					&& player.getY()+1.6f >= (yPos)
+					&& player.getY()-1.6f <= (yPos)) {
 				touchCheck = true;
 				player.stopMovement();
 				System.out.println("test" + touchPos.x / SCALE + " " + touchPos.y / SCALE);
 				System.out.println("test" + player.getX() + " " + player.getY());
 			}
+			
 		}
 		
 		if (!Gdx.input.isTouched() && touchCheck) {
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			float xPos2 = touchPos.x / SCALE;
-			float yPos2 = touchPos.y / SCALE;
+			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			viewport.unproject(touchPos);
+			float xPos2 = touchPos.x;
+			float yPos2 = touchPos.y;
 			System.out.println("SHOOT");
 			touchCheck = false;
 			Vector2 pos = player.getPosition();
-			player.body.applyLinearImpulse((20*(xPos - xPos2)), (20*(yPos2 - yPos)), pos.x, pos.y, true);
+			player.body.applyLinearImpulse((20*(xPos - xPos2)), (20*(yPos - yPos2)), pos.x, pos.y, true);
 		}
+		
 		
 		player.linearCheck();
 		
@@ -209,7 +199,6 @@ public class Stage01 implements Screen{
 	@Override
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);
-		screenCalibrator.update(arg0, arg1);
 	}
 
 	@Override
