@@ -15,12 +15,14 @@ import screens.Stage01;
 
 public abstract class Entity {
 	
+	private String name;
 	private World world;
 	private Sprite sprite;
 	public Body body;
 	
-	public Entity (World world, Texture texture, float x, float y) {
+	public Entity (World world, Texture texture, float x, float y, String name) {
 		this.world = world;
+		this.name = name;
 		sprite = new Sprite(texture);
 		createSprite(x ,y);
 		
@@ -42,7 +44,7 @@ public abstract class Entity {
 		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.4f;
 		fixtureDef.restitution = 0.6f;
-		body.createFixture(fixtureDef);
+		body.createFixture(fixtureDef).setUserData(this);
 		
 		circle.dispose();
 	}
@@ -84,5 +86,9 @@ public abstract class Entity {
 	public void stopMovement() {
 		body.setLinearVelocity(0, 0);
 		body.setAngularVelocity(0);
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

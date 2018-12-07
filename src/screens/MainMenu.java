@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,12 +17,20 @@ public class MainMenu implements Screen{
 	Penball game;
 	OrthographicCamera camera;
 	Viewport viewport;
+	Texture screen;
+	Texture playButton;
+	Texture highscoreButton;
+	Texture exitButton;
 	
 	public MainMenu(Penball game) {
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 640, 480);
 		viewport = new FitViewport(640,480,camera);
+		screen = new Texture(Gdx.files.internal("assets/main/mainBG.png"));
+		playButton = new Texture(Gdx.files.internal("assets/main/PlayButton.png"));
+		highscoreButton = new Texture(Gdx.files.internal("assets/main/HighScoreButton.png"));
+		exitButton = new Texture(Gdx.files.internal("assets/main/ExitButton.png"));
 		
 	}
 	
@@ -51,7 +60,10 @@ public class MainMenu implements Screen{
 		game.batch.setProjectionMatrix(camera.combined);
 
 		game.batch.begin();
-		game.font.draw(game.batch, "Penball ", game.HEIGHT/2, game.WIDTH/2);
+		game.batch.draw(screen, 0,0);
+		game.batch.draw(playButton, 257, 190);
+		game.batch.draw(highscoreButton, 257, 140);
+		game.batch.draw(exitButton, 257, 90);
 		game.batch.end();
 
 		if (Gdx.input.isTouched()) {
