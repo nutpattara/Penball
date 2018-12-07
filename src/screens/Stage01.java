@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import game.GameContactListener;
 import game.GameManager;
 import game.Penball;
 import game.Utills;
@@ -54,6 +55,7 @@ public class Stage01 implements Screen{
 		this.game = game;
 		touchCheck = false;
 		world = new World(new Vector2(0,0), true);
+		world.setContactListener(new GameContactListener());
 		debugRenderer = new Box2DDebugRenderer();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Penball.WIDTH / SCALE, Penball.HEIGHT / SCALE);
@@ -63,9 +65,9 @@ public class Stage01 implements Screen{
 		stageClear = false;
 		
 		// Entity create40]]
-		player = new Player(world, 50, 150);
+		player = new Player(world, 50, 150, "Player");
 		
-		enemy1 = new Enemy01(world, 150, 300);
+		enemy1 = new Enemy01(world, 150, 300, "Enemy");
 		
 		// First we create a body definition
 		BodyDef bodyDef = new BodyDef();
@@ -121,6 +123,8 @@ public class Stage01 implements Screen{
 		body.createFixture(fixtureDef);
 		
 		shape.dispose();
+		
+		
 	}
 
 	@Override
@@ -163,8 +167,8 @@ public class Stage01 implements Screen{
 					&& player.getY()-1.6f <= (yPos)) {
 				touchCheck = true;
 				player.stopMovement();
-				System.out.println("test" + touchPos.x / SCALE + " " + touchPos.y / SCALE);
-				System.out.println("test" + player.getX() + " " + player.getY());
+				//System.out.println("test" + touchPos.x / SCALE + " " + touchPos.y / SCALE);
+				//System.out.println("test" + player.getX() + " " + player.getY());
 			}
 			
 		}
@@ -174,14 +178,15 @@ public class Stage01 implements Screen{
 			viewport.unproject(touchPos);
 			float xPos2 = touchPos.x;
 			float yPos2 = touchPos.y;
-			System.out.println("SHOOT");
+			//System.out.println("SHOOT");
 			touchCheck = false;
 			Vector2 pos = player.getPosition();
 			player.body.applyLinearImpulse((20*(xPos - xPos2)), (20*(yPos - yPos2)), pos.x, pos.y, true);
 		}
 		
-		
-		player.linearCheck();
+		if (player.stateCheck()) {
+			// game over
+		}
 		
 		game.batch.begin();
 		player.render(game.batch);
