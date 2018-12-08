@@ -15,14 +15,18 @@ import screens.Stage01;
 
 public abstract class Entity {
 	
-	private String name;
-	private World world;
-	private Sprite sprite;
+	private int size;
+	protected String type;
+	protected World world;
+	protected Sprite sprite;
+	protected boolean isRemoved;
 	public Body body;
 	
-	public Entity (World world, Texture texture, float x, float y, String name) {
+	public Entity (World world, Texture texture, float x, float y, String type, int size) {
+		isRemoved = false;
 		this.world = world;
-		this.name = name;
+		this.type = type;
+		this.size = size;
 		sprite = new Sprite(texture);
 		createSprite(x ,y);
 		
@@ -38,25 +42,27 @@ public abstract class Entity {
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		CircleShape circle = new CircleShape();
-		circle.setRadius(24 / Stage01.SCALE);
+		circle.setRadius(size / Stage01.SCALE);
 		
 		fixtureDef.shape = circle;
 		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.4f;
 		fixtureDef.restitution = 0.6f;
-		body.createFixture(fixtureDef).setUserData(this);
+		body.createFixture(fixtureDef).setUserData(type);
 		
 		circle.dispose();
 	}
 	
 	public void render(SpriteBatch batch) {
-		float posX = (getX() * Stage01.SCALE) - sprite.getWidth()/2;
-		float posY = getY() * Stage01.SCALE - sprite.getHeight()/2;
-		float rotation = (float) Math.toDegrees(body.getAngle());
-		sprite.setPosition(posX, posY);
-		sprite.setRotation(rotation);
-		
-		sprite.draw(batch);
+		if (!isRemoved) {
+			float posX = (getX() * Stage01.SCALE) - sprite.getWidth()/2;
+			float posY = getY() * Stage01.SCALE - sprite.getHeight()/2;
+			float rotation = (float) Math.toDegrees(body.getAngle());
+			sprite.setPosition(posX, posY);
+			sprite.setRotation(rotation);
+			
+			sprite.draw(batch);
+		}
 	}
 	
 	public float getX() {
@@ -77,8 +83,8 @@ public abstract class Entity {
 	
 	public void linearCheck() {
 		// Entity will stop moving if LinearVelocity < 1
-		if ((body.getLinearVelocity().x < 0.5 && body.getLinearVelocity().x > -0.5)
-			|| (body.getLinearVelocity().y < 0.5 && body.getLinearVelocity().y > -0.5)){
+		if ((body.getLinearVelocity().x < 0.2 && body.getLinearVelocity().x > -0.2)
+			|| (body.getLinearVelocity().y < 0.2 && body.getLinearVelocity().y > -0.2)){
 			stopMovement();
 		}
 	}
@@ -88,7 +94,7 @@ public abstract class Entity {
 		body.setAngularVelocity(0);
 	}
 	
-	public String getName() {
-		return name;
+	public String getType() {
+		return type;
 	}
 }

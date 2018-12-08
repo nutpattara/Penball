@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
@@ -14,6 +16,11 @@ public class Utills {
 		System.out.println(entity.body.getLinearVelocity());
 		System.out.println(Gdx.graphics.getWidth());
 		System.out.println(Gdx.graphics.getHeight());
+	}
+	
+	public static int randomNum(int low, int high) {
+		Random random = new Random();
+		return low + random.nextInt(high - low);
 	}
 	
 }

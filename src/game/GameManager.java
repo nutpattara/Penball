@@ -13,7 +13,6 @@ public class GameManager {
 	private Penball game;
 	private int currentLevel;
 	private int enemiesInStage;
-	private ArrayList<Screen> stages;
 	
 	public GameManager(Penball game) {
 		this.game = game;

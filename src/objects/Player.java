@@ -6,14 +6,13 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import screens.Stage01;
 
-public class Player extends Entity{
-
-	int health;
+public class Player extends Character{
 	
-	public Player(World world, float x, float y, String name) {
-		super(world, new Texture(Gdx.files.internal("assets/player.gif")),
-				x / Stage01.SCALE, y / Stage01.SCALE, name);
+	public Player(World world, float x, float y) {
+		super(world, new Texture(Gdx.files.internal("assets/character/Player.png")),
+				x / Stage01.SCALE, y / Stage01.SCALE, "Player");
 		health = 10;
+		attack = 2;
 	}
 	
 	public boolean stateCheck() {
@@ -21,14 +20,6 @@ public class Player extends Entity{
 		this.linearCheck();
 		
 		return true;
-	}
-	
-	public boolean takeDamage(int damage) {
-		if (damage > 0) {
-			health = health - damage > 0 ? health - damage : 0;
-			return true;
-		}
-		return false;
 	}
 	
 	public void sling() {

@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -27,7 +28,9 @@ import game.Penball;
 import game.Utills;
 import objects.Enemy01;
 import objects.Entity;
+import objects.Fox;
 import objects.Player;
+import objects.PolarBear;
 
 public class Stage01 implements Screen{
 
@@ -37,13 +40,13 @@ public class Stage01 implements Screen{
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private Viewport viewport;
+	private GameContactListener contactListener;
 	
 	private TiledMap tileMap;
 	
 	private Player player;
-	private Entity enemy1;
-	private Entity enemy2;
-	private Entity enemy3;
+	private Array<Entity> enemies;
+	private int level;
 	
 	private boolean touchCheck;
 	private boolean stageClear;
@@ -55,7 +58,8 @@ public class Stage01 implements Screen{
 		this.game = game;
 		touchCheck = false;
 		world = new World(new Vector2(0,0), true);
-		world.setContactListener(new GameContactListener());
+		contactListener = new GameContactListener();
+		world.setContactListener(contactListener);
 		debugRenderer = new Box2DDebugRenderer();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Penball.WIDTH / SCALE, Penball.HEIGHT / SCALE);
@@ -63,11 +67,23 @@ public class Stage01 implements Screen{
 		
 		// Stage Setup
 		stageClear = false;
+		level = 1;
+		enemies = new Array<Entity>();
 		
 		// Entity create40]]
-		player = new Player(world, 50, 150, "Player");
+		player = new Player(world, 50, 150);
+		player.body.setUserData(player);
 		
-		enemy1 = new Enemy01(world, 150, 300, "Enemy");
+		Entity enemy1 = new PolarBear(world, 150, 300, level);
+		enemy1.body.setUserData(enemy1);
+		
+		enemies.add(enemy1);
+		
+		Entity enemy2 = new Fox(world, 50, 200, level);
+		enemy2.body.setUserData(enemy2);
+		
+		enemies.add(enemy2);
+		
 		
 		// First we create a body definition
 		BodyDef bodyDef = new BodyDef();
@@ -80,22 +96,6 @@ public class Stage01 implements Screen{
 		Body body = world.createBody(bodyDef);
 		CircleShape circle = new CircleShape();
 		FixtureDef fixtureDef = new FixtureDef();
-		/*
-		playerBody = world.createBody(bodyDef);
-
-		// Create a circle shape and set its radius to 6
-		circle.setRadius(24 / SCALE);
-
-		// Create a fixture definition to apply our shape to
-		fixtureDef.shape = circle;
-		fixtureDef.density = 0.5f; 
-		fixtureDef.friction = 0.4f;
-		fixtureDef.restitution = 0.6f; // Make it bounce a little bit
-
-		// Create our fixture and attach it to the body
-		Fixture fixture = playerBody.createFixture(fixtureDef);
-		*/
-		
 		
 		//Wall
 		bodyDef.type = BodyType.StaticBody;
@@ -124,18 +124,6 @@ public class Stage01 implements Screen{
 		
 		shape.dispose();
 		
-		
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -190,20 +178,39 @@ public class Stage01 implements Screen{
 		
 		game.batch.begin();
 		player.render(game.batch);
-		enemy1.render(game.batch);
-		//enemy2.render(game.batch);
+		for (int i = 0; i < enemies.size; i++) {
+			enemies.get(i).render(game.batch);
+		}
 		game.batch.end();
 		
 		if (game.manager.getEnemiesInStage() == 0 && !stageClear) stageClear = true;
 		
 		world.step(1/60f, 6, 2);
 		
-		// Hp check
+		//remove bodies
+		Array<Body> bodies = contactListener.getBodiesToRemove();
+		for (int i = 0; i < bodies.size; i++) {
+			Body b = bodies.get(i);
+			world.destroyBody(b);
+		}
+		bodies.clear();
+		
+		
 	}
 
 	@Override
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);
+	}
+	
+	@Override
+	public void hide() {
+		
+	}
+
+	@Override
+	public void pause() {
+		
 	}
 
 	@Override
