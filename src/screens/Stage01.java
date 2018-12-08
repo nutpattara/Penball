@@ -165,10 +165,6 @@ public class Stage01 implements Screen{
 			player.body.applyLinearImpulse((20*(xPos - xPos2)), (20*(yPos - yPos2)), pos.x, pos.y, true);
 		}
 		
-		if (player.stateCheck()) {
-			// game over
-		}
-		
 		game.batch.begin();
 		player.render(game.batch);
 		for (int i = 0; i < enemies.size; i++) {
@@ -188,12 +184,22 @@ public class Stage01 implements Screen{
 		}
 		bodies.clear();
 		
-		
+		if (player.stateCheck()) {
+			// game over
+			game.setScreen(new GameOver(game));
+			dispose();
+		}
 	}
 
 	@Override
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);
+	}
+	
+	@Override
+	public void dispose() {
+		world.dispose();
+		debugRenderer.dispose();
 	}
 	
 	@Override
@@ -215,12 +221,6 @@ public class Stage01 implements Screen{
 	public void show() {
 		
 	}
-	
-	@Override
-	public void dispose() {
-		
-	}
-
 	
 	
 }
