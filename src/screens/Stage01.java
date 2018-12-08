@@ -46,7 +46,6 @@ public class Stage01 implements Screen{
 	
 	private Player player;
 	private Array<Entity> enemies;
-	private int level;
 	
 	private boolean touchCheck;
 	private boolean stageClear;
@@ -67,19 +66,18 @@ public class Stage01 implements Screen{
 		
 		// Stage Setup
 		stageClear = false;
-		level = 1;
 		enemies = new Array<Entity>();
 		
 		// Entity create40]]
 		player = new Player(world, 50, 150);
 		player.body.setUserData(player);
 		
-		Entity enemy1 = new PolarBear(world, 150, 300, level);
+		Entity enemy1 = new PolarBear(world, 150, 300, game.manager.getCurrentLevel());
 		enemy1.body.setUserData(enemy1);
 		
 		enemies.add(enemy1);
 		
-		Entity enemy2 = new Fox(world, 50, 200, level);
+		Entity enemy2 = new Fox(world, 50, 200, game.manager.getCurrentLevel());
 		enemy2.body.setUserData(enemy2);
 		
 		enemies.add(enemy2);
@@ -147,16 +145,12 @@ public class Stage01 implements Screen{
 			viewport.unproject(touchPos);
 			xPos = touchPos.x;
 			yPos = touchPos.y;
-			//System.out.println("Raw Input: " + touchPos.x+ " " + touchPos.y);
-			//System.out.println("Calibrate: " + xPos+ " " + yPos);
 			if (player.getX()+1.6f >= (xPos)
 					&& player.getX()-1.6f <= (xPos)
 					&& player.getY()+1.6f >= (yPos)
 					&& player.getY()-1.6f <= (yPos)) {
 				touchCheck = true;
 				player.stopMovement();
-				//System.out.println("test" + touchPos.x / SCALE + " " + touchPos.y / SCALE);
-				//System.out.println("test" + player.getX() + " " + player.getY());
 			}
 			
 		}
@@ -166,7 +160,6 @@ public class Stage01 implements Screen{
 			viewport.unproject(touchPos);
 			float xPos2 = touchPos.x;
 			float yPos2 = touchPos.y;
-			//System.out.println("SHOOT");
 			touchCheck = false;
 			Vector2 pos = player.getPosition();
 			player.body.applyLinearImpulse((20*(xPos - xPos2)), (20*(yPos - yPos2)), pos.x, pos.y, true);

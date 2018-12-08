@@ -19,7 +19,7 @@ public class GameManager {
 		currentLevel = 1;
 		createLevel1();
 		
-		game.setScreen(new Stage01(game));
+		//game.setScreen(new Stage01(game));
 	}
 	
 	public void createLevel1() {

@@ -18,6 +18,7 @@ public class Penball extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		manager = new GameManager(this);
 		this.setScreen(new MainMenu(this));
 	}
 
