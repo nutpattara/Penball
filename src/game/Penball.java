@@ -23,7 +23,6 @@ public class Penball extends Game {
 	}
 
 	public void render() {
-		// Have no idea how this is work
 		super.render(); 
 	}
 

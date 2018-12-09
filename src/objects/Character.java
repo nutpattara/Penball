@@ -29,4 +29,8 @@ public abstract class Character extends Entity {
 		return health;
 	}
 	
+	public int getAttack() {
+		return attack;
+	}
+	
 }

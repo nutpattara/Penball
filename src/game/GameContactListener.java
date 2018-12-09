@@ -11,14 +11,17 @@ import com.badlogic.gdx.utils.Array;
 import objects.Enemy01;
 import objects.Entity;
 import objects.Fox;
+import objects.Player;
 import objects.PolarBear;
 
 public class GameContactListener implements ContactListener{
 	
 	private Array<Body> bodiesToRemove;
+	private Penball game;
 	
-	public GameContactListener() {
+	public GameContactListener(Penball game) {
 		super();
+		this.game = game;
 		bodiesToRemove = new Array<Body>();
 	}
 
@@ -33,15 +36,21 @@ public class GameContactListener implements ContactListener{
 			//Player Hit enemy
 			if (fb.getUserData() != null && fb.getUserData().equals("Enemy")) {
 				boolean isDeath = false;
+				int attack = ((Player) fa.getBody().getUserData()).getAttack();
+				String type = "";
 				if (fb.getBody().getUserData() instanceof Enemy01) {
-					isDeath = ((Enemy01) fb.getBody().getUserData()).takeDamage(1);
+					isDeath = ((Enemy01) fb.getBody().getUserData()).takeDamage(attack);
+					type = "Enemy01";
 				} else if (fb.getBody().getUserData() instanceof Fox) {
-					isDeath = ((Fox) fb.getBody().getUserData()).takeDamage(1);
+					isDeath = ((Fox) fb.getBody().getUserData()).takeDamage(attack);
+					type = "Fox";
 				} else if (fb.getBody().getUserData() instanceof PolarBear) {
-					isDeath = ((PolarBear) fb.getBody().getUserData()).takeDamage(1);
+					isDeath = ((PolarBear) fb.getBody().getUserData()).takeDamage(attack);
+					type = "PolarBear";
 				}
 				
 				if (isDeath) {
+					game.manager.enemyDies(type);
 					bodiesToRemove.add(fb.getBody());
 				}
 			}

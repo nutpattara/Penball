@@ -45,7 +45,6 @@ public class Stage01 implements Screen{
 	private TiledMap tileMap;
 	
 	private Player player;
-	private Array<Entity> enemies;
 	
 	private boolean touchCheck;
 	private boolean stageClear;
@@ -57,7 +56,7 @@ public class Stage01 implements Screen{
 		this.game = game;
 		touchCheck = false;
 		world = new World(new Vector2(0,0), true);
-		contactListener = new GameContactListener();
+		contactListener = new GameContactListener(game);
 		world.setContactListener(contactListener);
 		debugRenderer = new Box2DDebugRenderer();
 		camera = new OrthographicCamera();
@@ -66,22 +65,13 @@ public class Stage01 implements Screen{
 		
 		// Stage Setup
 		stageClear = false;
-		enemies = new Array<Entity>();
+		game.manager.setWorld(world);
 		
 		// Entity create40]]
 		player = new Player(world, 50, 150);
 		player.body.setUserData(player);
 		
-		Entity enemy1 = new PolarBear(world, 150, 300, game.manager.getCurrentLevel());
-		enemy1.body.setUserData(enemy1);
-		
-		enemies.add(enemy1);
-		
-		Entity enemy2 = new Fox(world, 50, 200, game.manager.getCurrentLevel());
-		enemy2.body.setUserData(enemy2);
-		
-		enemies.add(enemy2);
-		
+		game.manager.createLevel(1);
 		
 		// First we create a body definition
 		BodyDef bodyDef = new BodyDef();
@@ -103,7 +93,7 @@ public class Stage01 implements Screen{
 		shape.setAsBox(320 / SCALE, 20 / SCALE);
 		
 		fixtureDef.shape = shape;
-		Fixture fixture = body.createFixture(fixtureDef);
+		body.createFixture(fixtureDef);
 		
 		bodyDef.position.set(0 / SCALE, 240 / SCALE);
 		body = world.createBody(bodyDef);
@@ -135,11 +125,6 @@ public class Stage01 implements Screen{
 		debugRenderer.render(world, camera.combined);
 		camera.update();
 		
-		if (Gdx.input.isKeyPressed(Keys.A)) {			
-			Utills.positionCheck(player);
-		}
-		
-		
 		if (Gdx.input.isTouched() && !touchCheck) {
 			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 			viewport.unproject(touchPos);
@@ -167,9 +152,12 @@ public class Stage01 implements Screen{
 		
 		game.batch.begin();
 		player.render(game.batch);
-		for (int i = 0; i < enemies.size; i++) {
-			enemies.get(i).render(game.batch);
+		
+		//render enemies
+		for (int i = 0; i < game.manager.enemies.size; i++) {
+			game.manager.enemies.get(i).render(game.batch);
 		}
+		
 		game.batch.end();
 		
 		if (game.manager.getEnemiesInStage() == 0 && !stageClear) stageClear = true;
@@ -184,13 +172,26 @@ public class Stage01 implements Screen{
 		}
 		bodies.clear();
 		
-		if (player.stateCheck()) {
+		//Level clear Check
+		if (game.manager.getEnemiesInStage() == 0) {
+			toNextLevel();
+		}
+		
+		/*
+		if (!player.stateCheck()) {
 			// game over
 			game.setScreen(new GameOver(game));
 			dispose();
 		}
+		*/
 	}
 
+	public void toNextLevel() {
+		game.manager.nextLevel();
+		game.setScreen(new Stage01(game));
+		dispose();
+	}
+	
 	@Override
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);

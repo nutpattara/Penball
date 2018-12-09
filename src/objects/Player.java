@@ -22,7 +22,4 @@ public class Player extends Character{
 		return true;
 	}
 	
-	public void sling() {
-		
-	}
 }
