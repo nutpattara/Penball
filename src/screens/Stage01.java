@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -34,6 +34,7 @@ import objects.PolarBear;
 
 public class Stage01 implements Screen{
 
+	public final static boolean DEBUG = false;
 	public final static int SCALE = 10;
 	private Penball game;
 	private World world;
@@ -42,12 +43,11 @@ public class Stage01 implements Screen{
 	private Viewport viewport;
 	private GameContactListener contactListener;
 	
-	private TiledMap tileMap;
+	private Texture map;
 	
 	private Player player;
 	
 	private boolean touchCheck;
-	private boolean stageClear;
 	private float xPos;
 	private float yPos;
 	
@@ -64,14 +64,24 @@ public class Stage01 implements Screen{
 		viewport = new FitViewport(Penball.WIDTH / SCALE,Penball.HEIGHT / SCALE,camera);
 		
 		// Stage Setup
-		stageClear = false;
 		game.manager.setWorld(world);
 		
 		// Entity create
-		game.manager.createLevel(1);
+		game.manager.createLevel();
 		player = game.manager.player;
 		
-		// First we create a body definition
+		// Set map Texture
+		if (game.manager.getCurrentLevel() <= 5) {
+			map = new Texture(Gdx.files.internal("assets/textures/Stage01/AltComplete.png"));
+		} else if (game.manager.getCurrentLevel() <= 10) {
+			map = new Texture(Gdx.files.internal("assets/textures/Stage02/AltComplete.png"));
+		} else if (game.manager.getCurrentLevel() <= 15) {
+			map = new Texture(Gdx.files.internal("assets/textures/Stage03/AltComplete.png"));
+		} else {
+			map = new Texture(Gdx.files.internal("assets/textures/Stage04/AltComplete.png"));
+		}
+		
+		// Create a body definition
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(50 / SCALE, 250 / SCALE);
@@ -88,24 +98,24 @@ public class Stage01 implements Screen{
 		bodyDef.position.set(320 / SCALE, 0 / SCALE);
 		body = world.createBody(bodyDef);
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(320 / SCALE, 20 / SCALE);
+		shape.setAsBox(320 / SCALE,  100/ SCALE);
 		
 		fixtureDef.shape = shape;
 		body.createFixture(fixtureDef);
 		
 		bodyDef.position.set(0 / SCALE, 240 / SCALE);
 		body = world.createBody(bodyDef);
-		shape.setAsBox(20 / SCALE, 240 / SCALE);
+		shape.setAsBox(32 / SCALE, 240 / SCALE);
 		body.createFixture(fixtureDef);
 		
 		bodyDef.position.set(640 / SCALE, 240 / SCALE);
 		body = world.createBody(bodyDef);
-		shape.setAsBox(20 / SCALE, 240 / SCALE);
+		shape.setAsBox(32 / SCALE, 240 / SCALE);
 		body.createFixture(fixtureDef);
 		
 		bodyDef.position.set(320 / SCALE, 480 / SCALE);
 		body = world.createBody(bodyDef);
-		shape.setAsBox(320 / SCALE, 20 / SCALE);
+		shape.setAsBox(320 / SCALE, 32 / SCALE);
 		body.createFixture(fixtureDef);
 		
 		shape.dispose();
@@ -120,7 +130,7 @@ public class Stage01 implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// Camera move
-		debugRenderer.render(world, camera.combined);
+		//debugRenderer.render(world, camera.combined);
 		camera.update();
 		
 		if (Gdx.input.isTouched() && !touchCheck) {
@@ -149,16 +159,23 @@ public class Stage01 implements Screen{
 		}
 		
 		game.batch.begin();
-		player.render(game.batch);
 		
-		//render enemies
+		game.batch.draw(map, 0, 0);
+		
+		//render entities
+		player.render(game.batch);
 		for (int i = 0; i < game.manager.enemies.size; i++) {
 			game.manager.enemies.get(i).render(game.batch);
 		}
 		
+		// HUD Render
+		game.font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		game.font.draw(game.batch, Integer.toString(game.manager.getScore()), 400, 40);
+		game.font.draw(game.batch, Integer.toString(game.manager.player.getHealth()), 200, 40);
+		
 		game.batch.end();
 		
-		if (game.manager.getEnemiesInStage() == 0 && !stageClear) stageClear = true;
+		if (DEBUG) debugRenderer.render(world, camera.combined);
 		
 		world.step(1/60f, 6, 2);
 		
@@ -199,6 +216,7 @@ public class Stage01 implements Screen{
 	public void dispose() {
 		world.dispose();
 		debugRenderer.dispose();
+		map.dispose();
 	}
 	
 	@Override

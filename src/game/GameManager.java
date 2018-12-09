@@ -1,7 +1,5 @@
 package game;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -26,7 +24,9 @@ public class GameManager {
 	
 	public GameManager(Penball game) {
 		this.game = game;
+		enemies = new Array<Entity>();
 		currentLevel = 1;
+		score = 0;
 		//createLevel(1);
 	}
 	
@@ -34,15 +34,22 @@ public class GameManager {
 		this.world = world;
 	}
 	
-	public void createLevel(int level) {
+	public void createLevel() {
+		if (currentLevel % 5 != 0) {
+			createNormalLevel();
+		} else {
+			createBossLevel();
+		}
+	}
+	
+	public void createNormalLevel() {
 		//Create player
 		player = new Player(world, Utills.randomNum(100, 540), Utills.randomNum(100, 380));
 		player.body.setUserData(player);
 		
 		//Create enemies
-		int modifier = level / 5;
+		int modifier = currentLevel / 5;
 		int monsterAmount = Utills.randomNum(2+modifier, 4+modifier);
-		enemies = new Array<Entity>(monsterAmount);
 		enemiesInStage = monsterAmount;
 		for (int i = 0; i < monsterAmount; i++) {
 			int monsterType = Utills.randomNum(0, 3);
@@ -57,6 +64,14 @@ public class GameManager {
 			enemy.body.setUserData(enemy);
 			enemies.add(enemy);
 		}
+	}
+	
+	public void createBossLevel() {
+		//Create player
+		player = new Player(world, 240, 120);
+		player.body.setUserData(player);
+		
+		//Create Boss
 	}
 	
 	public void enemyDies(String type) {
@@ -76,10 +91,15 @@ public class GameManager {
 	}
 	
 	public void nextLevel() {
+		enemies.clear();
 		currentLevel++;
 	}
 	
 	public int getEnemiesInStage() {
 		return enemiesInStage;
+	}
+	
+	public int getScore() {
+		return score;
 	}
 }

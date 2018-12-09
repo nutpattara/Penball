@@ -19,12 +19,12 @@ public class Enemy01 extends Character implements Enemy{
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
-		shoot();
+		if (!isRemoved) shoot();
 	}
 	
 	@Override
 	public void shoot() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

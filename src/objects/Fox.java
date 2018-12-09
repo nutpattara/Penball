@@ -19,7 +19,7 @@ public class Fox extends Character implements Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
-		shoot();
+		if (!isRemoved) shoot();
 	}
 	
 	@Override
