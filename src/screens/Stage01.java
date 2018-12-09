@@ -67,11 +67,9 @@ public class Stage01 implements Screen{
 		stageClear = false;
 		game.manager.setWorld(world);
 		
-		// Entity create40]]
-		player = new Player(world, 50, 150);
-		player.body.setUserData(player);
-		
+		// Entity create
 		game.manager.createLevel(1);
+		player = game.manager.player;
 		
 		// First we create a body definition
 		BodyDef bodyDef = new BodyDef();

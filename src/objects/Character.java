@@ -1,6 +1,7 @@
 package objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Character extends Entity {
@@ -23,6 +24,11 @@ public abstract class Character extends Entity {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public void render(SpriteBatch batch) {
+		super.render(batch);
 	}
 	
 	public int getHealth() {

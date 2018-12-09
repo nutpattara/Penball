@@ -2,6 +2,7 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 
 import screens.Stage01;
@@ -15,6 +16,12 @@ public class Fox extends Character implements Enemy {
 		attack = 2;
 	}
 
+	@Override
+	public void render(SpriteBatch batch) {
+		super.render(batch);
+		shoot();
+	}
+	
 	@Override
 	public void shoot() {
 		// TODO Auto-generated method stub

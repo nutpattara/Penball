@@ -10,6 +10,7 @@ import objects.Enemy;
 import objects.Enemy01;
 import objects.Entity;
 import objects.Fox;
+import objects.Player;
 import objects.PolarBear;
 import screens.Stage01;
 
@@ -21,6 +22,7 @@ public class GameManager {
 	private int enemiesInStage;
 	private int score;
 	public Array<Entity> enemies;
+	public Player player;
 	
 	public GameManager(Penball game) {
 		this.game = game;
@@ -33,6 +35,11 @@ public class GameManager {
 	}
 	
 	public void createLevel(int level) {
+		//Create player
+		player = new Player(world, Utills.randomNum(100, 540), Utills.randomNum(100, 380));
+		player.body.setUserData(player);
+		
+		//Create enemies
 		int modifier = level / 5;
 		int monsterAmount = Utills.randomNum(2+modifier, 4+modifier);
 		enemies = new Array<Entity>(monsterAmount);
