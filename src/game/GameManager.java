@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import objects.Boss;
+import objects.Bullet;
 import objects.Enemy;
 import objects.Enemy01;
 import objects.Entity;
@@ -20,14 +21,14 @@ public class GameManager {
 	private int enemiesInStage;
 	private int score;
 	private World world;
-	public PlayerStats stats;
+	public Array<Bullet> bullets;
 	public Array<Entity> enemies;
 	public Player player;
 	
 	public GameManager(Penball game) {
 		this.game = game;
-		stats = new PlayerStats();
 		enemies = new Array<Entity>();
+		bullets = new Array<Bullet>();
 		currentLevel = 1;
 		score = 0;
 		//createLevel(1);
@@ -109,9 +110,7 @@ public class GameManager {
 	}
 	
 	public void nextLevel() {
-		for (int i = 0; i < enemies.size; i++) {
-			enemies.get(i).dispose();
-		}
+		bullets.clear();
 		enemies.clear();
 		currentLevel++;
 	}

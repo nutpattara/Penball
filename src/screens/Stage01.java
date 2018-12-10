@@ -173,6 +173,10 @@ public class Stage01 implements Screen{
 			game.manager.enemies.get(i).render(game.batch);
 		}
 		
+		for (int i = 0; i < game.manager.bullets.size; i++) {
+			game.manager.bullets.get(i).render(game.batch);
+		}
+		
 		// HUD Render
 		game.font.draw(game.batch, "LEVEL " + Integer.toString(game.manager.getCurrentLevel()), 270, 470);
 		game.font.draw(game.batch, Integer.toString(game.manager.getScore()), 400, 40);

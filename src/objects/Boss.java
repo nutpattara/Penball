@@ -15,7 +15,6 @@ public class Boss extends Character{
 	protected GameManager manager;
 	protected int delayCount;
 	protected int delayShoot;
-	protected Array<Bullet> bullets;
 	
 	public Boss(GameManager manager, float x, float y, int level) {
 		super(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Boss.png")), x / Stage01.SCALE, y / Stage01.SCALE, "Boss");
@@ -25,7 +24,6 @@ public class Boss extends Character{
 		attack = 3;
 		delayCount = 150;
 		delayShoot = 300;
-		bullets = new Array<Bullet>();
 	}
 
 	@Override
@@ -46,16 +44,12 @@ public class Boss extends Character{
 			Bullet bullet = new Bullet(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Boss.png")), 
 					this.body.getPosition().x, this.body.getPosition().y, attack);
 			bullet.body.setUserData(bullet);
-			bullets.add(bullet);
+			manager.bullets.add(bullet);
 			
 			Vector2 pos = bullet.getPosition();
 			Vector2 playerPos = manager.player.getPosition();
 			bullet.body.applyLinearImpulse((playerPos.x-pos.x)+modifier, (playerPos.y-pos.y),pos.x, pos.y, true);
 		}
-	}
-	
-	public void dispose() {
-		bullets.clear();
 	}
 	
 }

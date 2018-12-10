@@ -61,11 +61,13 @@ public class GameContactListener implements ContactListener{
 				// Player Hit Bullet
 				int damage = ((Bullet) fb.getBody().getUserData()).getAttack();
 				((Player) fa.getBody().getUserData()).takeDamage(damage);
+				((Bullet) fb.getBody().getUserData()).shot();
 				bodiesToRemove.add(fb.getBody());
 			}
 		} else if (fa.getUserData() != null && fa.getUserData().equals("Wall")) {
 			// just in case
 			if (fb.getUserData() != null && fb.getUserData().equals("Bullet")) {
+				((Bullet) fb.getBody().getUserData()).shot();
 				bodiesToRemove.add(fb.getBody());
 			}
 		}

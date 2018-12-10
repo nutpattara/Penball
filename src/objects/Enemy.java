@@ -13,13 +13,13 @@ public abstract class Enemy extends Character {
 	protected GameManager manager;
 	protected int delayCount;
 	protected int delayShoot;
-	protected Array<Bullet> bullets;
+	//protected Array<Bullet> bullets;
 	
 	public Enemy(GameManager manager,Texture texture, float x, float y, int level) {
 		super(manager.getWorld(), texture, x, y, "Enemy");
 		this.manager = manager;
 		delayCount = 0;
-		bullets = new Array<Bullet>();
+		//bullets = new Array<Bullet>();
 	}
 
 	@Override
@@ -35,18 +35,13 @@ public abstract class Enemy extends Character {
 	}
 	
 	public void shoot() {
-		Bullet bullet = new Bullet(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Boss.png")), 
+		Bullet bullet = new Bullet(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Bullet.png")), 
 				this.body.getPosition().x, this.body.getPosition().y, attack);
 		bullet.body.setUserData(bullet);
-		bullets.add(bullet);
+		manager.bullets.add(bullet);
 		
 		Vector2 pos = bullet.getPosition();
 		Vector2 playerPos = manager.player.getPosition();
 		bullet.body.applyLinearImpulse((playerPos.x-pos.x), (playerPos.y-pos.y),pos.x, pos.y, true);
 	}
-	
-	public void dispose() {
-		bullets.clear();
-	}
-
 }
