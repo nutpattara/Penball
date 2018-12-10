@@ -21,14 +21,12 @@ public class GameManager {
 	private int enemiesInStage;
 	private int score;
 	private World world;
-	public PlayerStats stats;
 	public Array<Bullet> bullets;
 	public Array<Entity> enemies;
 	public Player player;
 	
 	public GameManager(Penball game) {
 		this.game = game;
-		stats = new PlayerStats();
 		enemies = new Array<Entity>();
 		bullets = new Array<Bullet>();
 		currentLevel = 1;
