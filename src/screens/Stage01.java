@@ -2,7 +2,6 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -40,10 +38,6 @@ public class Stage01 implements Screen {
 	private Texture map;
 	private Player player;
 
-	// Sound
-	private Sound dead;
-	private Sound release;
-	
 	// Vars
 	private boolean touchCheck;
 	private float xPos;
@@ -66,28 +60,12 @@ public class Stage01 implements Screen {
 		// Stage Setup
 		game.manager.setWorld(world);
 
-		// Sound setup
-		dead = Gdx.audio.newSound(Gdx.files.internal("audio/dead.mp3"));
-		release = Gdx.audio.newSound(Gdx.files.internal("audio/release.mp3"));
-		
 		// Entity create
 		game.manager.createLevel();
 		player = game.manager.player;
 
 		// Set map Texture
-		if (game.manager.getCurrentLevel() <= 5) {
-			map = new Texture(Gdx.files.internal("textures/Stage1.png"));
-		} else if (game.manager.getCurrentLevel() <= 10) {
-			map = new Texture(Gdx.files.internal("textures/Stage2.png"));
-		} else if (game.manager.getCurrentLevel() <= 15) {
-			map = new Texture(Gdx.files.internal("textures/Stage3.png"));
-		} else {
-			if ((game.manager.getCurrentLevel() % 5) == 0) {
-				map = new Texture(Gdx.files.internal("textures/Boss.png"));
-			} else {
-				map = new Texture(Gdx.files.internal("textures/Stage4.png"));
-			}
-		}
+		setMap();
 
 		// Create a body definition
 		BodyDef bodyDef = new BodyDef();
@@ -161,11 +139,9 @@ public class Stage01 implements Screen {
 			touchCheck = false;
 			Vector2 pos = player.getPosition();
 			player.body.applyLinearImpulse((20 * (xPos - xPos2)), (20 * (yPos - yPos2)), pos.x, pos.y, true);
-			release.play(0.5f);
 		}
 
 		game.batch.begin();
-
 		game.batch.draw(map, 0, 0);
 
 		// render entities
@@ -211,6 +187,22 @@ public class Stage01 implements Screen {
 			}
 		}
 
+	}
+
+	public void setMap() {
+		if (game.manager.getCurrentLevel() <= 5) {
+			map = new Texture(Gdx.files.internal("textures/Stage1.png"));
+		} else if (game.manager.getCurrentLevel() <= 10) {
+			map = new Texture(Gdx.files.internal("textures/Stage2.png"));
+		} else if (game.manager.getCurrentLevel() <= 15) {
+			map = new Texture(Gdx.files.internal("textures/Stage3.png"));
+		} else {
+			if ((game.manager.getCurrentLevel() % 5) == 0) {
+				map = new Texture(Gdx.files.internal("textures/Boss.png"));
+			} else {
+				map = new Texture(Gdx.files.internal("textures/Stage4.png"));
+			}
+		}
 	}
 
 	public void toNextLevel() {

@@ -28,7 +28,7 @@ public class Penball extends Game {
 		stats = new PlayerStats();
 		music = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm.mp3"));
 		music.setLooping(true);
-		music.setVolume(0.05f);
+		music.setVolume(0.03f);
 		music.play();
 		//Font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B.ttf"));
