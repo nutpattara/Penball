@@ -17,9 +17,8 @@ public class Bullet extends Entity{
 		return attack;
 	}
 
-	@Override
-	public void dispose() {
+	public void shot() {
+		isRemoved = true;
 	}
-	
 	
 }

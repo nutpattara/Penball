@@ -1,6 +1,7 @@
 
 package objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -116,6 +117,5 @@ public abstract class Entity {
 	public String getType() {
 		return type;
 	}
-	
-	public abstract void dispose();
+
 }
