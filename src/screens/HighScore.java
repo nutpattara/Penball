@@ -1,5 +1,11 @@
 package screens;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,6 +33,21 @@ public class HighScore implements Screen {
 		screen = new Texture(Gdx.files.internal("assets/main/mainBG.png"));
 		delay = 0;
 		
+		File highscore = new File("highscore.txt");
+		if (highscore.exists()) {
+			highscore.delete();
+		}
+		
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("highscore.txt"))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+			}
+
+		} catch (IOException e) {
+			System.out.println("Can't load High Score");
+		}
 	}
 	
 	@Override
