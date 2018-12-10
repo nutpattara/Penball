@@ -189,7 +189,7 @@ public class Stage01 implements Screen {
 
 	}
 
-	public void setMap() {
+	private void setMap() {
 		if (game.manager.getCurrentLevel() <= 5) {
 			map = new Texture(Gdx.files.internal("textures/Stage1.png"));
 		} else if (game.manager.getCurrentLevel() <= 10) {
@@ -205,7 +205,7 @@ public class Stage01 implements Screen {
 		}
 	}
 
-	public void toNextLevel() {
+	private void toNextLevel() {
 		game.manager.nextLevel();
 		game.stats.setPlayerHealth(player.getHealth());
 		game.stats.setPlayerAttack(player.getAttack());

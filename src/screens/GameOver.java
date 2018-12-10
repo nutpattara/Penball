@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -73,7 +75,8 @@ public class GameOver implements Screen {
 				output.close();
 			}
 		} catch (IOException e1) {
-
+			JOptionPane.showMessageDialog(null, "ERROR : Can not load highscore.txt");
+			Gdx.app.exit();
 		}
 	}
 
