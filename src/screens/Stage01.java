@@ -209,6 +209,8 @@ public class Stage01 implements Screen{
 
 	public void toNextLevel() {
 		game.manager.nextLevel();
+		game.stats.setPlayerHealth(player.getHealth());
+		game.stats.setPlayerAttack(player.getAttack());
 		game.setScreen(new Stage01(game));
 		dispose();
 	}

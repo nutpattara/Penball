@@ -16,6 +16,10 @@ public class Bullet extends Entity{
 	public int getAttack() {
 		return attack;
 	}
+
+	@Override
+	public void dispose() {
+	}
 	
 	
 }

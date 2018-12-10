@@ -17,7 +17,6 @@ public abstract class Character extends Entity {
 		if (damage > 0) {
 			health = health - damage > 0 ? health - damage : 0;
 		}
-		System.out.println(health);
 		if (health == 0) {
 			isRemoved = true;
 			return true;

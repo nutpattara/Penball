@@ -32,9 +32,15 @@ public class GameOver implements Screen{
 
 		game.batch.begin();
 		
-		game.font.draw(game.batch, "GAME OVER", 320, 240);
+		game.font2.draw(game.batch, "GAME OVER", 200, 280);
+		game.font2.draw(game.batch, "YOUR SCORE IS : " + Integer.toString(game.manager.getScore()), 200, 260);
 		
 		game.batch.end();
+		
+		if (Gdx.input.isTouched()) {
+			Gdx.app.exit();
+			dispose();
+		}
 	}
 
 	@Override

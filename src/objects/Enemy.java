@@ -16,7 +16,7 @@ public abstract class Enemy extends Character {
 	protected Array<Bullet> bullets;
 	
 	public Enemy(GameManager manager,Texture texture, float x, float y, int level) {
-		super(manager.world, texture, x, y, "Enemy");
+		super(manager.getWorld(), texture, x, y, "Enemy");
 		this.manager = manager;
 		delayCount = 0;
 		bullets = new Array<Bullet>();
@@ -35,7 +35,7 @@ public abstract class Enemy extends Character {
 	}
 	
 	public void shoot() {
-		Bullet bullet = new Bullet(manager.world, new Texture(Gdx.files.internal("assets/character/Boss.png")), 
+		Bullet bullet = new Bullet(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Boss.png")), 
 				this.body.getPosition().x, this.body.getPosition().y, attack);
 		bullet.body.setUserData(bullet);
 		bullets.add(bullet);

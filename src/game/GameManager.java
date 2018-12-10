@@ -16,15 +16,17 @@ import screens.Stage01;
 public class GameManager {
 
 	private Penball game;
-	public World world;
 	private int currentLevel;
 	private int enemiesInStage;
 	private int score;
+	private World world;
+	public PlayerStats stats;
 	public Array<Entity> enemies;
 	public Player player;
 	
 	public GameManager(Penball game) {
 		this.game = game;
+		stats = new PlayerStats();
 		enemies = new Array<Entity>();
 		currentLevel = 1;
 		score = 0;
@@ -34,6 +36,13 @@ public class GameManager {
 	public void setWorld(World world) {
 		this.world = world;
 	}
+	
+	public World getWorld() {
+		return world;
+	}
+	
+	
+	/////// CREATE LEVEL /////////
 	
 	public void createLevel() {
 		if ((currentLevel % 5) != 0) {
@@ -45,7 +54,7 @@ public class GameManager {
 	
 	public void createNormalLevel() {
 		//Create player
-		player = new Player(world, Utills.randomNum(100, 540), Utills.randomNum(100, 380));
+		player = new Player(this, Utills.randomNum(100, 540), Utills.randomNum(100, 380));
 		player.body.setUserData(player);
 		
 		//Create enemies
@@ -70,12 +79,12 @@ public class GameManager {
 	public void createBossLevel() {
 		enemiesInStage = 1;
 		//Create player
-		player = new Player(world, 320, 120);
+		player = new Player(this, 320, 120);
 		player.body.setUserData(player);
 		
 		//Create Boss
 		Entity boss;
-		boss = new Boss(this, 320, 240, currentLevel);
+		boss = new Boss(this, 320, 340, currentLevel);
 		boss.body.setUserData(boss);
 		enemies.add(boss);
 	}
@@ -100,6 +109,9 @@ public class GameManager {
 	}
 	
 	public void nextLevel() {
+		for (int i = 0; i < enemies.size; i++) {
+			enemies.get(i).dispose();
+		}
 		enemies.clear();
 		currentLevel++;
 	}
@@ -111,4 +123,21 @@ public class GameManager {
 	public int getScore() {
 		return score;
 	}
+	
+	public int getPlayerHealth() {
+		return game.stats.health;
+	}
+	
+	public int getPlayerAttack() {
+		return game.stats.attack;
+	}
+	
+	public void setPlayerHealth(int health) {
+		game.stats.health = health;
+	}
+	
+	public void setPlayerAttack(int attack) {
+		game.stats.attack = attack;
+	}
+	
 }

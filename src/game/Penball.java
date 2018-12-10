@@ -15,6 +15,7 @@ public class Penball extends Game {
 	public static final boolean DEBUG = true;
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
+	public PlayerStats stats;
   	public SpriteBatch batch;
 	public BitmapFont font;
 	public BitmapFont font2;
@@ -23,14 +24,44 @@ public class Penball extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		manager = new GameManager(this);
+		stats = new PlayerStats();
 		//Font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/font/04B.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
 		font = generator.generateFont(parameter);
 		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		font2 = generator.generateFont(parameter);
+		font2.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		generator.dispose();
 		//
 		this.setScreen(new MainMenu(this));
+	}
+	
+	public class PlayerStats {
+		protected int health;
+		protected int attack;
+		
+		PlayerStats(){
+			health = 20;
+			attack = 2;
+		}
+		
+		public int getPlayerHealth() {
+			return health;
+		}
+		
+		public int getPlayerAttack() {
+			return attack;
+		}
+		
+		public void setPlayerHealth(int health) {
+			this.health = health;
+		}
+		
+		public void setPlayerAttack(int attack) {
+			this.attack = attack;
+		}
 	}
 
 	public void render() {

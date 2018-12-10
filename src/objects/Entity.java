@@ -116,4 +116,6 @@ public abstract class Entity {
 	public String getType() {
 		return type;
 	}
+	
+	public abstract void dispose();
 }
