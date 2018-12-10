@@ -62,14 +62,16 @@ public class MainMenu implements Screen {
 				if (touchPos.y >= 190 && touchPos.y < 240) {
 					// Play game button
 					game.setScreen(new Stage01(game));
+					dispose();
 				} else if (touchPos.y >= 140 && touchPos.y < 190) {
 					// High Score button
 					game.setScreen(new HighScore(game));
+					dispose();
 				} else if (touchPos.y >= 90 && touchPos.y < 140) {
 					// Exit button
 					Gdx.app.exit();
+					dispose();
 				}
-				dispose();
 			}
 		}
 

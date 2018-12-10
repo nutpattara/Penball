@@ -7,9 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import game.GameManager;
-import screens.Stage01;
 
-public class Enemy extends Character {
+public abstract class Enemy extends Character {
 	
 	protected GameManager manager;
 	protected int delayCount;
@@ -44,8 +43,6 @@ public class Enemy extends Character {
 		Vector2 pos = bullet.getPosition();
 		Vector2 playerPos = manager.player.getPosition();
 		bullet.body.applyLinearImpulse((playerPos.x-pos.x), (playerPos.y-pos.y),pos.x, pos.y, true);
-		
-		
 	}
 	
 	public void dispose() {

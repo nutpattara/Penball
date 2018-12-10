@@ -184,7 +184,7 @@ public class Stage01 implements Screen{
 		
 		world.step(1/60f, 6, 2);
 		
-		//remove bodies
+		// remove bodies
 		Array<Body> bodies = contactListener.getBodiesToRemove();
 		for (int i = 0; i < bodies.size; i++) {
 			Body b = bodies.get(i);
@@ -192,21 +192,19 @@ public class Stage01 implements Screen{
 		}
 		bodies.clear();
 		
-		//Level clear Check
-		if (game.manager.getEnemiesInStage() == 0) {
-			delay = delay <= 60 ? delay + 1 : 60;
-			if (delay == 60) {
-				toNextLevel();
+		if (!(player.stateCheck())) {
+			game.setScreen(new GameOver(game));
+			dispose();
+		} else {
+			// Level clear Check
+			if (game.manager.getEnemiesInStage() == 0) {
+				delay = delay <= 60 ? delay + 1 : 60;
+				if (delay == 60) {
+					toNextLevel();
+				}
 			}
 		}
 		
-		/*
-		if (!player.stateCheck()) {
-			// game over
-			game.setScreen(new GameOver(game));
-			dispose();
-		}
-		*/
 	}
 
 	public void toNextLevel() {

@@ -32,6 +32,7 @@ public class GameOver implements Screen{
 
 		game.batch.begin();
 		
+		game.font.draw(game.batch, "GAME OVER", 320, 240);
 		
 		game.batch.end();
 	}

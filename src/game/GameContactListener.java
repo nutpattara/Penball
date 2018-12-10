@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 
 import objects.Boss;
+import objects.Bullet;
 import objects.Enemy01;
 import objects.Entity;
 import objects.Fox;
@@ -28,7 +29,6 @@ public class GameContactListener implements ContactListener{
 
 	@Override
 	public void beginContact(Contact c) {
-		// TODO Auto-generated method stub
 		
 		Fixture fa = c.getFixtureA();
 		Fixture fb = c.getFixtureB();
@@ -57,6 +57,16 @@ public class GameContactListener implements ContactListener{
 					game.manager.enemyDies(type);
 					bodiesToRemove.add(fb.getBody());
 				}
+			} else if (fb.getUserData() != null && fb.getUserData().equals("Bullet")) {
+				// Player Hit Bullet
+				int damage = ((Bullet) fb.getBody().getUserData()).getAttack();
+				((Player) fa.getBody().getUserData()).takeDamage(damage);
+				bodiesToRemove.add(fb.getBody());
+			}
+		} else if (fa.getUserData() != null && fa.getUserData().equals("Wall")) {
+			// just in case
+			if (fb.getUserData() != null && fb.getUserData().equals("Bullet")) {
+				bodiesToRemove.add(fb.getBody());
 			}
 		}
 
@@ -64,19 +74,16 @@ public class GameContactListener implements ContactListener{
 
 	@Override
 	public void endContact(Contact c) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void postSolve(Contact c, ContactImpulse ci) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void preSolve(Contact c, Manifold m) {
-		// TODO Auto-generated method stub
 		
 	}
 	

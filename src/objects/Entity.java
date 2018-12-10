@@ -37,7 +37,7 @@ public abstract class Entity {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.linearDamping = 0.35f;
+		bodyDef.linearDamping = type.equals("Bullet") ? 0.0f : 0.35f;
 		bodyDef.angularDamping = 0.5f;
 		body = world.createBody(bodyDef);
 		
