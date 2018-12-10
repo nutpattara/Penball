@@ -25,7 +25,7 @@ public class HighScore implements Screen {
 	private Viewport viewport;
 	private int delay;
 	private Texture screen;
-	private String score;
+	private int score;
 
 	public HighScore(Penball game) {
 		this.game = game;
@@ -34,7 +34,7 @@ public class HighScore implements Screen {
 		viewport = new FitViewport(640, 480, camera);
 		screen = new Texture(Gdx.files.internal("main/mainBG.png"));
 		delay = 0;
-		score = "";
+		score = 0;
 
 		File highScore = new File("highscore.txt");
 		try {
@@ -46,7 +46,10 @@ public class HighScore implements Screen {
 			BufferedReader br = new BufferedReader(new FileReader("highscore.txt"));
 			String line = br.readLine();
 			while (line != null) {
-				score = line;
+				int nextScore = Integer.parseInt(line);
+				if (nextScore > score) {
+					score = nextScore;
+				}
 				line = br.readLine();
 			}
 		} catch (IOException e1) {
@@ -68,7 +71,7 @@ public class HighScore implements Screen {
 		game.batch.draw(screen, 0, 0);
 
 		game.font2.draw(game.batch, "YOUR HIGH SCORE IS", 200, 240);
-		game.font2.draw(game.batch, score, 280, 210);
+		game.font2.draw(game.batch, Integer.toString(score), 280, 210);
 
 		game.batch.end();
 
