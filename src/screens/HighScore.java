@@ -32,7 +32,7 @@ public class HighScore implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 640, 480);
 		viewport = new FitViewport(640, 480, camera);
-		screen = new Texture(Gdx.files.internal("assets/main/mainBG.png"));
+		screen = new Texture(Gdx.files.internal("main/mainBG.png"));
 		delay = 0;
 		score = "";
 

@@ -15,7 +15,7 @@ public class Boss extends Character {
 	protected int delayShoot;
 
 	public Boss(GameManager manager, float x, float y, int level) {
-		super(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Boss.png")), x / Stage01.SCALE,
+		super(manager.getWorld(), new Texture(Gdx.files.internal("character/Boss.png")), x / Stage01.SCALE,
 				y / Stage01.SCALE, "Boss");
 		this.manager = manager;
 		delayCount = 0;
@@ -40,7 +40,7 @@ public class Boss extends Character {
 	public void shoot() {
 		for (int i = 0; i < 7; i++) {
 			int modifier = (i - 3) * 7;
-			Bullet bullet = new Bullet(manager.getWorld(), new Texture(Gdx.files.internal("assets/character/Boss.png")),
+			Bullet bullet = new Bullet(manager.getWorld(), new Texture(Gdx.files.internal("character/Bullet.png")),
 					this.body.getPosition().x, this.body.getPosition().y, attack);
 			bullet.body.setUserData(bullet);
 			manager.bullets.add(bullet);

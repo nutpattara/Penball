@@ -31,7 +31,7 @@ public class Penball extends Game {
 		music.setVolume(0.05f);
 		music.play();
 		//Font
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/font/04B.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		font = generator.generateFont(parameter);
 		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);

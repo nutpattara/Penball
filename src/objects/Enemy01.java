@@ -9,7 +9,7 @@ import screens.Stage01;
 public class Enemy01 extends Enemy {
 
 	public Enemy01(GameManager manager, float x, float y, int level) {
-		super(manager, new Texture(Gdx.files.internal("assets/character/Seal.png")), x / Stage01.SCALE,
+		super(manager, new Texture(Gdx.files.internal("character/Seal.png")), x / Stage01.SCALE,
 				y / Stage01.SCALE, level);
 		health = 5;
 		attack = 1;

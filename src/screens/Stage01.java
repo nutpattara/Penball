@@ -2,6 +2,7 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ import objects.Player;
 
 public class Stage01 implements Screen {
 
+	// Core engine
 	public final static int SCALE = 10;
 	private Penball game;
 	private World world;
@@ -34,10 +36,15 @@ public class Stage01 implements Screen {
 	private Viewport viewport;
 	private GameContactListener contactListener;
 
+	// Game
 	private Texture map;
-
 	private Player player;
 
+	// Sound
+	private Sound dead;
+	private Sound release;
+	
+	// Vars
 	private boolean touchCheck;
 	private float xPos;
 	private float yPos;
@@ -45,6 +52,7 @@ public class Stage01 implements Screen {
 
 	public Stage01(Penball game) {
 
+		// Core engine setup
 		this.game = game;
 		touchCheck = false;
 		world = new World(new Vector2(0, 0), true);
@@ -58,22 +66,26 @@ public class Stage01 implements Screen {
 		// Stage Setup
 		game.manager.setWorld(world);
 
+		// Sound setup
+		dead = Gdx.audio.newSound(Gdx.files.internal("audio/dead.mp3"));
+		release = Gdx.audio.newSound(Gdx.files.internal("audio/release.mp3"));
+		
 		// Entity create
 		game.manager.createLevel();
 		player = game.manager.player;
 
 		// Set map Texture
 		if (game.manager.getCurrentLevel() <= 5) {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage1.png"));
+			map = new Texture(Gdx.files.internal("textures/Stage1.png"));
 		} else if (game.manager.getCurrentLevel() <= 10) {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage2.png"));
+			map = new Texture(Gdx.files.internal("textures/Stage2.png"));
 		} else if (game.manager.getCurrentLevel() <= 15) {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage3.png"));
+			map = new Texture(Gdx.files.internal("textures/Stage3.png"));
 		} else {
 			if ((game.manager.getCurrentLevel() % 5) == 0) {
-				map = new Texture(Gdx.files.internal("assets/textures/Boss.png"));
+				map = new Texture(Gdx.files.internal("textures/Boss.png"));
 			} else {
-				map = new Texture(Gdx.files.internal("assets/textures/Stage4.png"));
+				map = new Texture(Gdx.files.internal("textures/Stage4.png"));
 			}
 		}
 
@@ -149,6 +161,7 @@ public class Stage01 implements Screen {
 			touchCheck = false;
 			Vector2 pos = player.getPosition();
 			player.body.applyLinearImpulse((20 * (xPos - xPos2)), (20 * (yPos - yPos2)), pos.x, pos.y, true);
+			release.play(0.5f);
 		}
 
 		game.batch.begin();

@@ -27,10 +27,10 @@ public class MainMenu implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 640, 480);
 		viewport = new FitViewport(640, 480, camera);
-		screen = new Texture(Gdx.files.internal("assets/main/mainBG.png"));
-		playButton = new Texture(Gdx.files.internal("assets/main/PlayButton.png"));
-		highscoreButton = new Texture(Gdx.files.internal("assets/main/HighScoreButton.png"));
-		exitButton = new Texture(Gdx.files.internal("assets/main/ExitButton.png"));
+		screen = new Texture(Gdx.files.internal("main/mainBG.png"));
+		playButton = new Texture(Gdx.files.internal("main/PlayButton.png"));
+		highscoreButton = new Texture(Gdx.files.internal("main/HighScoreButton.png"));
+		exitButton = new Texture(Gdx.files.internal("main/ExitButton.png"));
 
 	}
 
