@@ -1,7 +1,10 @@
 package screens;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
@@ -15,9 +18,9 @@ import game.Penball;
 
 public class GameOver implements Screen{
 
-	Penball game;
-	OrthographicCamera camera;
-	Viewport viewport;
+	private Penball game;
+	private OrthographicCamera camera;
+	private Viewport viewport;
 	
 	public GameOver(Penball game) {
 		this.game = game;
@@ -54,7 +57,24 @@ public class GameOver implements Screen{
 
 	@Override
 	public void dispose() {
-		
+		File highScore = new File("highscore.txt");
+		try {
+			if (highScore.createNewFile()) {
+				BufferedWriter output = new BufferedWriter(new FileWriter(highScore, true));
+		        output.append("" + "0");
+		        output.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader("highscore.txt"));
+			int score = Integer.parseInt(br.readLine());
+			if (game.manager.getScore() > score) {
+		        BufferedWriter output = new BufferedWriter(new FileWriter(highScore, true));
+		        output.newLine();
+		        output.append("" + Integer.toString(game.manager.getScore()));
+		        output.close();
+			}
+		} catch (IOException e1) {
+			
+		}
 	}
 	
 	@Override

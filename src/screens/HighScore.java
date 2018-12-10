@@ -3,8 +3,10 @@ package screens;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
+
+import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,7 +16,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+
 import game.Penball;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class HighScore implements Screen {
 
@@ -23,7 +28,7 @@ public class HighScore implements Screen {
 	private Viewport viewport;
 	private int delay;
 	private Texture screen;
-	
+	private String score;
 	
 	public HighScore(Penball game) {
 		this.game = game;
@@ -32,21 +37,24 @@ public class HighScore implements Screen {
 		viewport = new FitViewport(640, 480, camera);
 		screen = new Texture(Gdx.files.internal("assets/main/mainBG.png"));
 		delay = 0;
+		score = "";
 		
-		File highscore = new File("highscore.txt");
-		if (highscore.exists()) {
-			highscore.delete();
-		}
-		
-		
-		try (BufferedReader br = new BufferedReader(new FileReader("highscore.txt"))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				System.out.println(line);
+		File highScore = new File("highscore.txt");
+		try {
+			if (highScore.createNewFile()) {
+				FileWriter writer = new FileWriter(highScore);
+				writer.write("0");
+				writer.close();
 			}
-
-		} catch (IOException e) {
-			System.out.println("Can't load High Score");
+			BufferedReader br = new BufferedReader(new FileReader("highscore.txt"));
+			String line = br.readLine();
+			while (line != null) {
+				score = line;
+				line = br.readLine();
+			}
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(null, "ERROR : Can not load highscore.txt");
+			Gdx.app.exit();
 		}
 	}
 	
@@ -61,6 +69,10 @@ public class HighScore implements Screen {
 
 		game.batch.begin();
 		game.batch.draw(screen, 0,0);
+		
+		game.font2.draw(game.batch, "YOUR HIGH SCORE IS", 200, 240);
+		game.font2.draw(game.batch, score, 280, 210);
+			
 		game.batch.end();
 		
 		if (Gdx.input.isTouched() && delay == 20) {
