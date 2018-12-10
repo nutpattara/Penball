@@ -23,4 +23,11 @@ public class Utills {
 		return low + random.nextInt(high - low);
 	}
 	
+	public static class Vars {
+		public static final short BIT_PLAYER = 2;
+		public static final short BIT_ENEMY = 4;
+		public static final short BIT_WALL = 8;
+		public static final short BIT_BULLET = 16;
+	}
+	
 }

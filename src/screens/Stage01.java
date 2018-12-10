@@ -105,22 +105,23 @@ public class Stage01 implements Screen{
 		shape.setAsBox(320 / SCALE,  100/ SCALE);
 		
 		fixtureDef.shape = shape;
-		body.createFixture(fixtureDef);
+		fixtureDef.filter.categoryBits = Utills.Vars.BIT_WALL;
+		body.createFixture(fixtureDef).setUserData("Wall");;
 		
 		bodyDef.position.set(0 / SCALE, 240 / SCALE);
 		body = world.createBody(bodyDef);
 		shape.setAsBox(32 / SCALE, 240 / SCALE);
-		body.createFixture(fixtureDef);
+		body.createFixture(fixtureDef).setUserData("Wall");;
 		
 		bodyDef.position.set(640 / SCALE, 240 / SCALE);
 		body = world.createBody(bodyDef);
 		shape.setAsBox(32 / SCALE, 240 / SCALE);
-		body.createFixture(fixtureDef);
+		body.createFixture(fixtureDef).setUserData("Wall");;
 		
 		bodyDef.position.set(320 / SCALE, 480 / SCALE);
 		body = world.createBody(bodyDef);
 		shape.setAsBox(320 / SCALE, 32 / SCALE);
-		body.createFixture(fixtureDef);
+		body.createFixture(fixtureDef).setUserData("Wall");;
 		
 		shape.dispose();
 		

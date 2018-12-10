@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
+import game.Utills;
 import screens.Stage01;
 
 public abstract class Entity {
@@ -48,6 +49,15 @@ public abstract class Entity {
 		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.4f;
 		fixtureDef.restitution = 0.6f;
+		if (type.equals("Player")) {
+			fixtureDef.filter.categoryBits = Utills.Vars.BIT_PLAYER;
+		} else if (type.equals("Bullet")) {
+			fixtureDef.filter.categoryBits = Utills.Vars.BIT_BULLET;
+			fixtureDef.filter.maskBits = Utills.Vars.BIT_PLAYER | Utills.Vars.BIT_WALL;
+		} else {
+			fixtureDef.filter.categoryBits = Utills.Vars.BIT_ENEMY;
+			fixtureDef.filter.maskBits = Utills.Vars.BIT_PLAYER | Utills.Vars.BIT_WALL;
+		}
 		body.createFixture(fixtureDef).setUserData(type);
 		
 		circle.dispose();

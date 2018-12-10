@@ -12,7 +12,7 @@ import screens.MainMenu;
 
 public class Penball extends Game {
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
   	public SpriteBatch batch;

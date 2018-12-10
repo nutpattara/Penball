@@ -16,7 +16,7 @@ import screens.Stage01;
 public class GameManager {
 
 	private Penball game;
-	private World world;
+	public World world;
 	private int currentLevel;
 	private int enemiesInStage;
 	private int score;
@@ -56,11 +56,11 @@ public class GameManager {
 			int monsterType = Utills.randomNum(0, 3);
 			Entity enemy;
 			if (monsterType == 0) {
-				enemy = new Enemy01(world, Utills.randomNum(100, 540), Utills.randomNum(100, 380), currentLevel);
+				enemy = new Enemy01(this, Utills.randomNum(100, 540), Utills.randomNum(100, 380), currentLevel);
 			} else if (monsterType == 1) {
-				enemy = new Fox(world, Utills.randomNum(100, 540), Utills.randomNum(100, 380), currentLevel);
+				enemy = new Fox(this, Utills.randomNum(100, 540), Utills.randomNum(100, 380), currentLevel);
 			} else {
-				enemy = new PolarBear(world, Utills.randomNum(100, 540), Utills.randomNum(100, 380), currentLevel);
+				enemy = new PolarBear(this, Utills.randomNum(100, 540), Utills.randomNum(100, 380), currentLevel);
 			}
 			enemy.body.setUserData(enemy);
 			enemies.add(enemy);
@@ -75,7 +75,7 @@ public class GameManager {
 		
 		//Create Boss
 		Entity boss;
-		boss = new Boss(world, 320, 240, currentLevel);
+		boss = new Boss(this, 320, 240, currentLevel);
 		boss.body.setUserData(boss);
 		enemies.add(boss);
 	}

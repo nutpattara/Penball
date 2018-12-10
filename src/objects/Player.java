@@ -11,8 +11,8 @@ public class Player extends Character{
 	public Player(World world, float x, float y) {
 		super(world, new Texture(Gdx.files.internal("assets/character/Player.png")),
 				x / Stage01.SCALE, y / Stage01.SCALE, "Player");
-		health = 10;
-		attack = 2;
+		health = 20;
+		attack = 10;
 	}
 	
 	public boolean stateCheck() {
