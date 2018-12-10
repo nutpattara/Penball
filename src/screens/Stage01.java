@@ -34,7 +34,6 @@ import objects.PolarBear;
 
 public class Stage01 implements Screen{
 
-	public final static boolean DEBUG = false;
 	public final static int SCALE = 10;
 	private Penball game;
 	private World world;
@@ -50,6 +49,7 @@ public class Stage01 implements Screen{
 	private boolean touchCheck;
 	private float xPos;
 	private float yPos;
+	private int delay;
 	
 	public Stage01 (Penball game) {
 		
@@ -72,13 +72,17 @@ public class Stage01 implements Screen{
 		
 		// Set map Texture
 		if (game.manager.getCurrentLevel() <= 5) {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage01/AltComplete.png"));
+			map = new Texture(Gdx.files.internal("assets/textures/Stage1.png"));
 		} else if (game.manager.getCurrentLevel() <= 10) {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage02/AltComplete.png"));
+			map = new Texture(Gdx.files.internal("assets/textures/Stage2.png"));
 		} else if (game.manager.getCurrentLevel() <= 15) {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage03/AltComplete.png"));
+			map = new Texture(Gdx.files.internal("assets/textures/Stage3.png"));
 		} else {
-			map = new Texture(Gdx.files.internal("assets/textures/Stage04/AltComplete.png"));
+			if ((game.manager.getCurrentLevel() % 5) == 0) {
+				map = new Texture(Gdx.files.internal("assets/textures/Boss.png"));
+			} else {
+				map = new Texture(Gdx.files.internal("assets/textures/Stage4.png"));
+			}
 		}
 		
 		// Create a body definition
@@ -169,13 +173,13 @@ public class Stage01 implements Screen{
 		}
 		
 		// HUD Render
-		game.font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		game.font.draw(game.batch, "LEVEL " + Integer.toString(game.manager.getCurrentLevel()), 270, 470);
 		game.font.draw(game.batch, Integer.toString(game.manager.getScore()), 400, 40);
 		game.font.draw(game.batch, Integer.toString(game.manager.player.getHealth()), 200, 40);
 		
 		game.batch.end();
 		
-		if (DEBUG) debugRenderer.render(world, camera.combined);
+		if (game.DEBUG) debugRenderer.render(world, camera.combined);
 		
 		world.step(1/60f, 6, 2);
 		
@@ -189,7 +193,10 @@ public class Stage01 implements Screen{
 		
 		//Level clear Check
 		if (game.manager.getEnemiesInStage() == 0) {
-			toNextLevel();
+			delay = delay <= 60 ? delay + 1 : 60;
+			if (delay == 60) {
+				toNextLevel();
+			}
 		}
 		
 		/*

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 
+import objects.Boss;
 import objects.Enemy01;
 import objects.Entity;
 import objects.Fox;
@@ -34,7 +35,7 @@ public class GameContactListener implements ContactListener{
 		
 		if (fa.getUserData() != null && fa.getUserData().equals("Player")) {
 			//Player Hit enemy
-			if (fb.getUserData() != null && fb.getUserData().equals("Enemy")) {
+			if (fb.getUserData() != null && (fb.getUserData().equals("Enemy") || fb.getUserData().equals("Boss"))) {
 				boolean isDeath = false;
 				int attack = ((Player) fa.getBody().getUserData()).getAttack();
 				String type = "";
@@ -47,6 +48,9 @@ public class GameContactListener implements ContactListener{
 				} else if (fb.getBody().getUserData() instanceof PolarBear) {
 					isDeath = ((PolarBear) fb.getBody().getUserData()).takeDamage(attack);
 					type = "PolarBear";
+				} else if (fb.getBody().getUserData() instanceof Boss) {
+					isDeath = ((Boss) fb.getBody().getUserData()).takeDamage(attack);
+					type = "Boss";
 				}
 				
 				if (isDeath) {

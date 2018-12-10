@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import objects.Boss;
 import objects.Enemy;
 import objects.Enemy01;
 import objects.Entity;
@@ -35,7 +36,7 @@ public class GameManager {
 	}
 	
 	public void createLevel() {
-		if (currentLevel % 5 != 0) {
+		if ((currentLevel % 5) != 0) {
 			createNormalLevel();
 		} else {
 			createBossLevel();
@@ -67,11 +68,16 @@ public class GameManager {
 	}
 	
 	public void createBossLevel() {
+		enemiesInStage = 1;
 		//Create player
-		player = new Player(world, 240, 120);
+		player = new Player(world, 320, 120);
 		player.body.setUserData(player);
 		
 		//Create Boss
+		Entity boss;
+		boss = new Boss(world, 320, 240, currentLevel);
+		boss.body.setUserData(boss);
+		enemies.add(boss);
 	}
 	
 	public void enemyDies(String type) {
@@ -81,7 +87,10 @@ public class GameManager {
 			score += 150;
 		} else if (type.equals("PolarBear")) {
 			score += 200;
+		} else if (type.equals("Boss")) {
+			score += 1000;
 		}
+		score += (currentLevel - 1) * 5;
 		enemiesInStage--;
 	}
 	

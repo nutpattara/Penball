@@ -26,7 +26,7 @@ public abstract class Entity {
 		isRemoved = false;
 		this.world = world;
 		this.type = type;
-		this.size = size;
+		this.size = type.equals("Boss") ? 36 : size;
 		sprite = new Sprite(texture);
 		createSprite(x ,y);
 		
@@ -55,9 +55,18 @@ public abstract class Entity {
 	
 	public void render(SpriteBatch batch) {
 		if (!isRemoved) {
-			float posX = (getX() * Stage01.SCALE) - sprite.getWidth()/2;
-			float posY = getY() * Stage01.SCALE - sprite.getHeight()/2;
-			float rotation = (float) Math.toDegrees(body.getAngle());
+			float posX;
+			float posY;
+			float rotation;
+			if (type.equals("Boss")) {
+				posX = getX() * Stage01.SCALE - sprite.getWidth()/2;
+				posY = getY() * Stage01.SCALE - 32;
+				rotation = 0;
+			} else {
+				posX = getX() * Stage01.SCALE - sprite.getWidth()/2;
+				posY = getY() * Stage01.SCALE - sprite.getHeight()/2;
+				rotation = (float) Math.toDegrees(body.getAngle());
+			}
 			sprite.setPosition(posX, posY);
 			sprite.setRotation(rotation);
 			
