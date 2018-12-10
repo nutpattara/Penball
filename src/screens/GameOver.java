@@ -16,19 +16,19 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import game.Penball;
 
-public class GameOver implements Screen{
+public class GameOver implements Screen {
 
 	private Penball game;
 	private OrthographicCamera camera;
 	private Viewport viewport;
-	
+
 	public GameOver(Penball game) {
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 640, 480);
-		viewport = new FitViewport(640,480,camera);
+		viewport = new FitViewport(640, 480, camera);
 	}
-	
+
 	@Override
 	public void render(float arg0) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -38,12 +38,12 @@ public class GameOver implements Screen{
 		game.batch.setProjectionMatrix(camera.combined);
 
 		game.batch.begin();
-		
+
 		game.font2.draw(game.batch, "GAME OVER", 200, 280);
 		game.font2.draw(game.batch, "YOUR SCORE IS : " + Integer.toString(game.manager.getScore()), 200, 260);
-		
+
 		game.batch.end();
-		
+
 		if (Gdx.input.isTouched()) {
 			Gdx.app.exit();
 			dispose();
@@ -61,40 +61,40 @@ public class GameOver implements Screen{
 		try {
 			if (highScore.createNewFile()) {
 				BufferedWriter output = new BufferedWriter(new FileWriter(highScore, true));
-		        output.append("" + "0");
-		        output.close();
+				output.append("" + "0");
+				output.close();
 			}
 			BufferedReader br = new BufferedReader(new FileReader("highscore.txt"));
 			int score = Integer.parseInt(br.readLine());
 			if (game.manager.getScore() > score) {
-		        BufferedWriter output = new BufferedWriter(new FileWriter(highScore, true));
-		        output.newLine();
-		        output.append("" + Integer.toString(game.manager.getScore()));
-		        output.close();
+				BufferedWriter output = new BufferedWriter(new FileWriter(highScore, true));
+				output.newLine();
+				output.append("" + Integer.toString(game.manager.getScore()));
+				output.close();
 			}
 		} catch (IOException e1) {
-			
+
 		}
 	}
-	
+
 	@Override
 	public void hide() {
-		
+
 	}
 
 	@Override
 	public void pause() {
-		
+
 	}
 
 	@Override
 	public void resume() {
-		
+
 	}
 
 	@Override
 	public void show() {
-		
+
 	}
 
 }

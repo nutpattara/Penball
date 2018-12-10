@@ -8,7 +8,7 @@ public abstract class Character extends Entity {
 
 	protected int health;
 	protected int attack;
-	
+
 	public Character(World world, Texture texture, float x, float y, String type) {
 		super(world, texture, x, y, type, 24);
 	}
@@ -24,18 +24,18 @@ public abstract class Character extends Entity {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
 	}
-	
+
 	public int getHealth() {
 		return health;
 	}
-	
+
 	public int getAttack() {
 		return attack;
 	}
-	
+
 }

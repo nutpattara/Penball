@@ -16,10 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-
 import game.Penball;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class HighScore implements Screen {
 
@@ -29,7 +26,7 @@ public class HighScore implements Screen {
 	private int delay;
 	private Texture screen;
 	private String score;
-	
+
 	public HighScore(Penball game) {
 		this.game = game;
 		camera = new OrthographicCamera();
@@ -38,7 +35,7 @@ public class HighScore implements Screen {
 		screen = new Texture(Gdx.files.internal("assets/main/mainBG.png"));
 		delay = 0;
 		score = "";
-		
+
 		File highScore = new File("highscore.txt");
 		try {
 			if (highScore.createNewFile()) {
@@ -57,24 +54,24 @@ public class HighScore implements Screen {
 			Gdx.app.exit();
 		}
 	}
-	
+
 	@Override
 	public void render(float arg0) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		delay = delay <= 20 ? delay+1 : 20;
+		delay = delay <= 20 ? delay + 1 : 20;
 
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
 
 		game.batch.begin();
-		game.batch.draw(screen, 0,0);
-		
+		game.batch.draw(screen, 0, 0);
+
 		game.font2.draw(game.batch, "YOUR HIGH SCORE IS", 200, 240);
 		game.font2.draw(game.batch, score, 280, 210);
-			
+
 		game.batch.end();
-		
+
 		if (Gdx.input.isTouched() && delay == 20) {
 			game.setScreen(new MainMenu(game));
 			dispose();
@@ -85,7 +82,7 @@ public class HighScore implements Screen {
 	public void resize(int arg0, int arg1) {
 		viewport.update(arg0, arg1);
 	}
-	
+
 	@Override
 	public void dispose() {
 		screen.dispose();
@@ -93,22 +90,22 @@ public class HighScore implements Screen {
 
 	@Override
 	public void hide() {
-		
+
 	}
 
 	@Override
 	public void pause() {
-		
+
 	}
 
 	@Override
 	public void resume() {
-		
+
 	}
 
 	@Override
 	public void show() {
-		
+
 	}
 
 }

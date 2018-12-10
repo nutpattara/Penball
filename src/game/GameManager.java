@@ -1,18 +1,15 @@
 package game;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import objects.Boss;
 import objects.Bullet;
-import objects.Enemy;
 import objects.Enemy01;
 import objects.Entity;
 import objects.Fox;
 import objects.Player;
 import objects.PolarBear;
-import screens.Stage01;
 
 public class GameManager {
 

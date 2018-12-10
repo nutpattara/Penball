@@ -2,11 +2,11 @@ package game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import screens.MainMenu;
 
@@ -15,6 +15,7 @@ public class Penball extends Game {
 	public static final boolean DEBUG = false;
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
+	private Music music;
 	public PlayerStats stats;
   	public SpriteBatch batch;
 	public BitmapFont font;
@@ -25,10 +26,13 @@ public class Penball extends Game {
 		batch = new SpriteBatch();
 		manager = new GameManager(this);
 		stats = new PlayerStats();
+		music = Gdx.audio.newMusic(Gdx.files.internal("audio/bgm.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.05f);
+		music.play();
 		//Font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/font/04B.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
 		font = generator.generateFont(parameter);
 		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		font2 = generator.generateFont(parameter);
@@ -71,6 +75,7 @@ public class Penball extends Game {
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
+		music.dispose();
 	}
 
 }

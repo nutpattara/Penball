@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Array;
 import objects.Boss;
 import objects.Bullet;
 import objects.Enemy01;
-import objects.Entity;
 import objects.Fox;
 import objects.Player;
 import objects.PolarBear;
