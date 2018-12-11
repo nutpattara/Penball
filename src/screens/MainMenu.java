@@ -34,7 +34,7 @@ public class MainMenu implements Screen {
 		playButton = new Texture(Gdx.files.internal("main/PlayButton.png"));
 		playButtonClicked = new Texture(Gdx.files.internal("main/PlayButtonClicked.png"));
 		highscoreButton = new Texture(Gdx.files.internal("main/HighScoreButton.png"));
-		highscoreButtonClicked = new Texture(Gdx.files.internal("main/HighscoreButtonClicked.png"));
+		highscoreButtonClicked = new Texture(Gdx.files.internal("main/HighScoreButtonClicked.png"));
 		exitButton = new Texture(Gdx.files.internal("main/ExitButton.png"));
 		exitButtonClicked = new Texture(Gdx.files.internal("main/ExitButtonClicked.png"));
 

@@ -47,7 +47,7 @@ public class Penball extends Game {
 		protected int attack;
 		
 		PlayerStats(){
-			health = 20;
+			health = 30;
 			attack = 2;
 		}
 		
