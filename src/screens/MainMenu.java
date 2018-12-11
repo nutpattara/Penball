@@ -18,8 +18,11 @@ public class MainMenu implements Screen {
 	private Viewport viewport;
 	private Texture screen;
 	private Texture playButton;
+	private Texture playButtonClicked;
 	private Texture highscoreButton;
+	private Texture highscoreButtonClicked;
 	private Texture exitButton;
+	private Texture exitButtonClicked;
 	private int delay;
 
 	public MainMenu(Penball game) {
@@ -29,8 +32,11 @@ public class MainMenu implements Screen {
 		viewport = new FitViewport(640, 480, camera);
 		screen = new Texture(Gdx.files.internal("main/mainBG.png"));
 		playButton = new Texture(Gdx.files.internal("main/PlayButton.png"));
+		playButtonClicked = new Texture(Gdx.files.internal("main/PlayButtonClicked.png"));
 		highscoreButton = new Texture(Gdx.files.internal("main/HighScoreButton.png"));
+		highscoreButtonClicked = new Texture(Gdx.files.internal("main/HighscoreButtonClicked.png"));
 		exitButton = new Texture(Gdx.files.internal("main/ExitButton.png"));
+		exitButtonClicked = new Texture(Gdx.files.internal("main/ExitButtonClicked.png"));
 
 	}
 
@@ -39,6 +45,8 @@ public class MainMenu implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		delay = delay <= 20 ? delay + 1 : 20;
+		Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+		viewport.unproject(touchPos);
 
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
@@ -46,15 +54,31 @@ public class MainMenu implements Screen {
 		game.batch.begin();
 
 		game.batch.draw(screen, 0, 0);
-		game.batch.draw(playButton, 257, 190);
-		game.batch.draw(highscoreButton, 257, 140);
-		game.batch.draw(exitButton, 257, 90);
-
+		
+		if (touchPos.x >= 257 && touchPos.x <= 383) {
+			if (touchPos.y >= 200 && touchPos.y < 240) {
+				game.batch.draw(playButtonClicked, 257, 190);
+			} else {
+				game.batch.draw(playButton, 257, 190);
+			}
+			if (touchPos.y >= 150 && touchPos.y < 190) {
+				game.batch.draw(highscoreButtonClicked, 257, 140);
+			} else {
+				game.batch.draw(highscoreButton, 257, 140);
+			}
+			if (touchPos.y >= 100 && touchPos.y < 140) {
+				game.batch.draw(exitButtonClicked, 257, 90);
+			} else {
+				game.batch.draw(exitButton, 257, 90);
+			}
+		} else {
+			game.batch.draw(playButton, 257, 190);
+			game.batch.draw(highscoreButton, 257, 140);
+			game.batch.draw(exitButton, 257, 90);
+		}
 		game.batch.end();
 
 		if (Gdx.input.isTouched() && delay == 20) {
-			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-			viewport.unproject(touchPos);
 
 			if (touchPos.x >= 257 && touchPos.x <= 383) {
 				if (touchPos.y >= 190 && touchPos.y < 240) {
@@ -84,8 +108,11 @@ public class MainMenu implements Screen {
 	public void dispose() {
 		screen.dispose();
 		playButton.dispose();
+		playButtonClicked.dispose();
 		highscoreButton.dispose();
+		highscoreButtonClicked.dispose();
 		exitButton.dispose();
+		exitButtonClicked.dispose();
 	}
 
 	@Override
